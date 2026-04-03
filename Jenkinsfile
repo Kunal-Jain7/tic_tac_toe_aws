@@ -20,7 +20,6 @@ pipeline {
 
   options {
     ansiColor('xterm')
-    timestamps()
     buildDiscarder(logRotator(numToKeepStr: '30'))
   }
 
@@ -63,7 +62,9 @@ pipeline {
       steps {
         sh '''
           cd frontend
-          docker build --pull -t ${IMAGE_NAME}:${IMAGE_TAG} -t ${FULL_IMAGE} .
+          docker buildx create --use --name tic-tac-toe-builder || true
+          docker buildx build --platform linux/amd64,linux/arm64 --pull --push -t ${FULL_IMAGE} .
+          docker buildx rm tic-tac-toe-builder || true
         '''
       }
     }
@@ -74,13 +75,6 @@ pipeline {
         sh '''
           aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${REGISTRY}
         '''
-      }
-    }
-
-    stage('Push image') {
-      when { expression { params.RUN_APP_DEPLOY == true } }
-      steps {
-        sh 'docker push ${FULL_IMAGE}'
       }
     }
 
@@ -106,7 +100,7 @@ pipeline {
           if aws ecs describe-services --cluster ${ECS_CLUSTER} --services ${ECS_SERVICE} --query 'services[0].serviceName' --output text 2>/dev/null | grep -q ${ECS_SERVICE}; then
             aws ecs update-service --cluster ${ECS_CLUSTER} --service ${ECS_SERVICE} --task-definition ${TASK_FAMILY} --force-new-deployment
           else
-            aws ecs create-service --cluster ${ECS_CLUSTER} --service ${ECS_SERVICE} --task-definition ${TASK_FAMILY} --desired-count 2 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[${PRIVATE_SUBNETS}],securityGroups=[${ECS_SG}],assignPublicIp=DISABLED}" --load-balancers targetGroupArn=${TG_ARN},containerName=frontend,containerPort=80
+            aws ecs create-service --cluster ${ECS_CLUSTER} --service-name ${ECS_SERVICE} --task-definition ${TASK_FAMILY} --desired-count 2 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[${PRIVATE_SUBNETS}],securityGroups=[${ECS_SG}],assignPublicIp=DISABLED}" --load-balancers targetGroupArn=${TG_ARN},containerName=frontend,containerPort=80
           fi
         '''
       }

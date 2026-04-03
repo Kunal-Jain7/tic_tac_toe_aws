@@ -1,18 +1,19 @@
-# Use a lightweight NGINX image to serve static files
 FROM nginx:stable-alpine
 
-# Set maintainer label (optional)
 LABEL maintainer="Kunal <your-email@example.com>"
 
-# Clean default nginx configuration and copy our custom config
+# Remove default nginx config
 RUN rm /etc/nginx/conf.d/default.conf
+
+# Remove default HTML
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy nginx config
 COPY nginx.conf /etc/nginx/conf.d/
 
-# Copy all frontend assets into nginx html directory
+# Copy your app files
 COPY . /usr/share/nginx/html
 
-# Expose default HTTP port
 EXPOSE 80
 
-# Start nginx
 CMD ["nginx", "-g", "daemon off;"]
