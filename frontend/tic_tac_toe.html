@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kunal tic-tac-toe</title>
+  <link rel="stylesheet" href="tic_tac_toe.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="title-bar">
+      <h1>Kunal tic-tac-toe</h1>
+      <p>Player vs Player with cool neomorphic design.</p>
+    </header>
+
+    <section class="scoreboard">
+      <div class="score-card" id="scoreX">X: 0</div>
+      <div class="score-card" id="scoreTie">Tie: 0</div>
+      <div class="score-card" id="scoreO">O: 0</div>
+    </section>
+
+    <main class="board" id="board">
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
+    </main>
+
+    <section class="controls">
+      <div id="status">Turn: X</div>
+      <button id="resetBtn">Reset Board</button>
+    </section>
+
+    <footer class="hint">Click any tile to mark. Get 3 in a row to win. Enjoy!</footer>
+  </div>
+
+  <script src="tic_tac_toe.js"></script>
+</body>
+</html>

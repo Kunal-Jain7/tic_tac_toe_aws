@@ -1,0 +1,21 @@
+:root { --bg: #131821; --panel: #1f2a3b; --border: #30445f; --highlight: #60e5ff; --x: #ff7df5; --o: #72d9ff; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 20% 20%, #1d344c 0%, #0e1520 45%, #06090f 100%); color: #d6e9ff; font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: grid; place-items: center; padding: 1rem; }
+.app-shell { width: min(680px, 100%); border: 1px solid rgba(255,255,255,.12); border-radius: 22px; background: linear-gradient(145deg, rgba(27,42,61,.9), rgba(8,15,25,.95)); box-shadow: 0 10px 30px rgba(0,0,0,.5), inset 0 0 20px rgba(0,0,0,.2); padding: 1rem 1rem 1.2rem; }
+.title-bar { text-align: center; margin-bottom: 1rem; }
+.title-bar h1 { margin: 0; font-size: 2rem; letter-spacing: 1px; }
+.title-bar p { margin-top: .4rem; color: #98b2d2; }
+.scoreboard { display: flex; gap: .65rem; justify-content: center; margin-bottom: 1rem; }
+.score-card { flex: 1; font-weight: 700; font-size: 1rem; text-align: center; padding: .6rem .4rem; border-radius: 12px; background: linear-gradient(145deg, rgba(17,29,42,.8), rgba(37,61,84,.8)); border: 1px solid #30577a; box-shadow: 2px 2px 10px rgba(0,0,0,.35); }
+.board { display: grid; grid-template-columns: repeat(3,1fr); gap: .5rem; margin: 0 auto; width: min(420px, 100%); }
+.cell { position: relative; aspect-ratio: 1/1; background: linear-gradient(145deg, rgba(25,43,62,.9), rgba(17,27,42,.9)); border: 2px solid rgba(99,151,203,.4); border-radius: 14px; cursor: pointer; display: grid; place-items: center; font-size: 2.6rem; font-weight: 800; color: #c5e5ff; transition: transform .15s ease, border-color .2s ease, background .25s ease; }
+.cell:hover { transform: translateY(-2px); border-color: var(--highlight); background: linear-gradient(135deg, rgba(35,65,92,.85), rgba(18,30,45,.9)); }
+.cell.x { color: var(--x); text-shadow: 0 0 12px rgba(255, 129, 253, .8); }
+.cell.o { color: var(--o); text-shadow: 0 0 12px rgba(114, 217, 255, .9); }
+.cell.win { animation: winnerGlow .8s infinite alternate; }
+@keyframes winnerGlow { from { box-shadow: 0 0 16px rgba(255,255,255,.2); } to { box-shadow: 0 0 22px rgba(78, 215, 255, .7); }}
+.controls { display: flex; justify-content: space-between; align-items: center; padding: .7rem; margin-top: 1rem; background: rgba(14,25,39,.75); border: 1px solid rgba(86, 146, 205, .4); border-radius: 12px; }
+#status { font-size: 1.05rem; font-weight: 600; }
+#resetBtn { border: 0; border-radius: 10px; background: linear-gradient(145deg, rgba(68, 147, 255, .9), rgba(54,105,168,.9)); color: #fff; padding: .5rem 1rem; cursor: pointer; font-size: .95rem; font-weight: 700; transition: transform .2s ease, filter .2s ease; }
+#resetBtn:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.hint { text-align: center; margin-top: .8rem; color: #93b7d6; font-size: .9rem; }
