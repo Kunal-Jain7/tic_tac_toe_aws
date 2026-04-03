@@ -7,8 +7,8 @@ pipeline {
   }
 
   environment {
-    AWS_REGION      = 'ap-south-1'  // Replace with your AWS region
-    AWS_ACCOUNT_ID  = '123456789012'  // Replace with your AWS account ID
+    AWS_REGION      = 'us-east-1'  // Replace with your AWS region
+    AWS_ACCOUNT_ID  = '622385388668'  // Replace with your AWS account ID
     REGISTRY        = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
     IMAGE_NAME      = 'tic-tac-toe-ecr'
     IMAGE_TAG       = "${env.BUILD_NUMBER ?: 'latest'}"
@@ -27,7 +27,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/your-username/tic-tac-toe-aws.git'  // Replace with your actual repository URL
+        git branch: 'main', url: 'https://github.com/Kunal-Jain7/tic_tac_toe_aws.git'  // Replace with your actual repository URL
       }
     }
 
@@ -35,13 +35,13 @@ pipeline {
       steps {
         script {
           dir('terraform') {
-            sh 'terraform init -input=false'
+            sh 'terraform init -input=false -no-color'
             if (params.TF_ACTION == 'plan') {
-              sh 'terraform plan -input=false'
+              sh 'terraform plan -input=false -no-color'
             } else if (params.TF_ACTION == 'apply') {
-              sh "terraform apply -auto-approve -input=false -var=\"image_tag=latest\""
+              sh "terraform apply -auto-approve -input=false -no-color -var=\"image_tag=latest\""
             } else if (params.TF_ACTION == 'destroy') {
-              sh 'terraform destroy -auto-approve -input=false'
+              sh 'terraform destroy -auto-approve -input=false -no-color'
             } else {
               echo 'Skipping Terraform (TF_ACTION=none)'
             }
